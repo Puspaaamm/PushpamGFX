@@ -3,95 +3,394 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pushpam GFX — Official Home</title>
+  <title>Pushpam GFX — Drive Resources</title>
   
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * { 
       box-sizing: border-box; 
       margin: 0; 
       padding: 0; 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      font-family: 'Inter', -apple-system, sans-serif; 
     }
+
     body { 
-      background-color: #fafafa; 
-      color: #111; 
+      background-color: #f8f9fa; 
+      color: #1f1f1f; 
       min-height: 100vh; 
-      padding: 40px 20px; 
+      padding: 24px 16px 40px 16px; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
     }
-    .container { width: 100%; max-width: 800px; }
+
+    .container { width: 100%; max-width: 900px; }
     
+    /* Top Navigation / Google Drive Style Header */
     header { 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      padding-bottom: 24px; 
-      border-bottom: 1px solid #eee; 
-      margin-bottom: 32px; 
+      padding-bottom: 20px; 
+      border-bottom: 1px solid #e0e0e0; 
+      margin-bottom: 24px; 
     }
-    .brand { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-    .tag { font-size: 13px; color: #666; background: #eee; padding: 4px 12px; border-radius: 12px; font-weight: 500; }
 
-    .hero { margin-bottom: 32px; }
-    .hero h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
-    .hero p { color: #666; font-size: 15px; }
+    .brand-group { display: flex; align-items: center; gap: 12px; }
+    .drive-icon { width: 36px; height: 36px; }
+    .brand-title { font-size: 22px; font-weight: 700; color: #1f1f1f; letter-spacing: -0.5px; }
+    .badge { font-size: 12px; background: #e8f0fe; color: #1a73e8; padding: 4px 12px; border-radius: 16px; font-weight: 600; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .card { background: #fff; border: 1px solid #e5e5e5; border-radius: 10px; padding: 20px; text-decoration: none; color: inherit; transition: all 0.2s; }
-    .card:hover { border-color: #111; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .card-icon { font-size: 24px; margin-bottom: 12px; }
-    .card-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-    .card-meta { font-size: 12px; color: #777; }
+    /* Search & Filter Bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #edf2fc;
+      padding: 10px 16px;
+      border-radius: 28px;
+      margin-bottom: 24px;
+      gap: 12px;
+    }
 
-    footer { text-align: center; color: #888; font-size: 13px; border-top: 1px solid #eee; padding-top: 24px; }
+    .search-bar svg { fill: #5f6368; width: 20px; height: 20px; }
+    .search-bar input {
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 100%;
+      font-size: 15px;
+      color: #1f1f1f;
+    }
+
+    /* Category Filter Tabs */
+    .categories-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      scrollbar-width: none;
+    }
+
+    .category-chip {
+      padding: 8px 16px;
+      background: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #444746;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .category-chip.active, .category-chip:hover {
+      background: #c2e7ff;
+      border-color: #c2e7ff;
+      color: #001d35;
+    }
+
+    /* Section Title */
+    .section-head { font-size: 15px; font-weight: 600; color: #444746; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Resource Cards Grid */
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+      gap: 20px; 
+      margin-bottom: 40px; 
+    }
+
+    .card { 
+      background: #ffffff; 
+      border: 1px solid #e0e0e0; 
+      border-radius: 12px; 
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card:hover { 
+      border-color: #1a73e8; 
+      transform: translateY(-3px); 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    }
+
+    /* Thumbnail Area */
+    .card-preview {
+      width: 100%;
+      height: 140px;
+      background-color: #f1f3f4;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .card-type-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* Card Details */
+    .card-content { padding: 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-title { font-size: 15px; font-weight: 600; color: #1f1f1f; margin-bottom: 6px; line-height: 1.4; }
+    .card-meta { font-size: 12px; color: #70757a; margin-bottom: 16px; }
+
+    /* Card Action Buttons */
+    .card-actions { display: flex; gap: 8px; }
+    
+    .btn-view {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      background: #f1f3f4;
+      color: #1f1f1f;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-view:hover { background: #e8eaed; }
+
+    .btn-drive {
+      padding: 8px 12px;
+      background: #1a73e8;
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-drive:hover { background: #1557b0; }
+    .btn-drive svg { width: 14px; height: 14px; fill: #fff; }
+
+    /* Footer & Social Section */
+    footer { 
+      width: 100%;
+      border-top: 1px solid #e0e0e0; 
+      padding-top: 24px; 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .social-links { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .social-chip { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 6px; 
+      text-decoration: none; 
+      color: #444746; 
+      background: #ffffff; 
+      border: 1px solid #dadce0; 
+      padding: 6px 14px; 
+      border-radius: 20px; 
+      font-size: 12px; 
+      font-weight: 500; 
+    }
+    .social-chip svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .copyright { font-size: 12px; color: #70757a; }
   </style>
 </head>
 <body>
 
   <div class="container">
+    
+    <!-- Top Header -->
     <header>
-      <div class="brand">Pushpam GFX</div>
-      <div class="tag">Design Resources</div>
+      <div class="brand-group">
+        <!-- Google Drive Style Icon -->
+        <svg class="drive-icon" viewBox="0 0 87.3 78">
+          <path d="M6.6 66.85l12.2-21.1 27.2 47.1H20.6L6.6 66.85z" fill="#0066DA"/>
+          <path d="M43.8 0L24.8 32.9l13.6 23.5L57.4 23.5 43.8 0z" fill="#00AC47"/>
+          <path d="M73.5 66.85L59.9 43.35 46.3 66.85h27.2z" fill="#EA4335"/>
+          <path d="M43.8 0L16.6 47.1h27.2L71 0H43.8z" fill="#FFBA00"/>
+        </svg>
+        <div class="brand-title">Pushpam GFX</div>
+      </div>
+      <div class="badge">Google Drive Hub</div>
     </header>
 
-    <div class="hero">
-      <h1>Graphic Assets Collection</h1>
-      <p>डाउनलोड करने के लिए नीचे दिए गए किसी भी रिसोर्स पर क्लिक करें:</p>
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" id="searchInput" placeholder="सर्च करें जैसे: Poster, Logo, Thumbnail..." onkeyup="filterCards()">
     </div>
 
-    <div class="grid">
-      <!-- अपने फोल्डर लिंक्स यहाँ डालें -->
-      <a href="./poster/" class="card">
-        <div class="card-icon">🎨</div>
-        <div class="card-title">Poster Design Template</div>
-        <div class="card-meta">PSD • 24.5 MB</div>
-      </a>
-
-      <a href="./logo-pack/" class="card">
-        <div class="card-icon">✨</div>
-        <div class="card-title">Vector Logo Pack</div>
-        <div class="card-meta">AI & EPS • 15.2 MB</div>
-      </a>
-
-      <a href="./thumbnail/" class="card">
-        <div class="card-icon">🖼️</div>
-        <div class="card-title">YouTube Thumbnail PSD</div>
-        <div class="card-meta">PSD • 18.0 MB</div>
-      </a>
+    <!-- Category Filter Chips -->
+    <div class="categories-scroll">
+      <div class="category-chip active" onclick="filterCategory('all')">All Files</div>
+      <div class="category-chip" onclick="filterCategory('poster')">Posters</div>
+      <div class="category-chip" onclick="filterCategory('logo')">Logos</div>
+      <div class="category-chip" onclick="filterCategory('thumbnail')">Thumbnails</div>
+      <div class="category-chip" onclick="filterCategory('overlay')">Overlays & FX</div>
     </div>
 
+    <div class="section-head">Recent Files & Templates</div>
+
+    <!-- Cards Grid -->
+    <div class="grid" id="cardGrid">
+      
+      <!-- Poster Card 1 -->
+      <div class="card" data-category="poster">
+        <div class="card-preview" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80');">
+          <span class="card-type-tag">PSD</span>
+        </div>
+        <div class="card-content">
+          <div>
+            <div class="card-title">Festival Poster Template</div>
+            <div class="card-meta">24.5 MB • Editable Layers</div>
+          </div>
+          <div class="card-actions">
+            <a href="./poster/" class="btn-view">View Page</a>
+            <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID" class="btn-drive" target="_blank">
+              <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Drive
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Poster Card 2 -->
+      <div class="card" data-category="poster">
+        <div class="card-preview" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80');">
+          <span class="card-type-tag">PSD</span>
+        </div>
+        <div class="card-content">
+          <div>
+            <div class="card-title">Event Banner Banner Design</div>
+            <div class="card-meta">19.2 MB • High Resolution</div>
+          </div>
+          <div class="card-actions">
+            <a href="./poster/" class="btn-view">View Page</a>
+            <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID" class="btn-drive" target="_blank">
+              <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Drive
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo Card -->
+      <div class="card" data-category="logo">
+        <div class="card-preview" style="background-image: url('https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80');">
+          <span class="card-type-tag">AI / EPS</span>
+        </div>
+        <div class="card-content">
+          <div>
+            <div class="card-title">Vector Gaming Logo Pack</div>
+            <div class="card-meta">15.2 MB • 50+ Logos</div>
+          </div>
+          <div class="card-actions">
+            <a href="./logo-pack/" class="btn-view">View Page</a>
+            <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID" class="btn-drive" target="_blank">
+              <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Drive
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thumbnail Card -->
+      <div class="card" data-category="thumbnail">
+        <div class="card-preview" style="background-image: url('https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80');">
+          <span class="card-type-tag">PSD</span>
+        </div>
+        <div class="card-content">
+          <div>
+            <div class="card-title">YouTube Viral Thumbnail PSD</div>
+            <div class="card-meta">18.0 MB • Fully Customizable</div>
+          </div>
+          <div class="card-actions">
+            <a href="./thumbnail/" class="btn-view">View Page</a>
+            <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID" class="btn-drive" target="_blank">
+              <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              Drive
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
     <footer>
-      © Pushpam GFX • All Rights Reserved
+      <div class="social-links">
+        <a href="https://youtube.com/@PushpamGFX" class="social-chip" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+        <a href="https://instagram.com/pushpamgfx" class="social-chip" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </a>
+        <a href="https://x.com/pushpamGFX" class="social-chip" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X
+        </a>
+      </div>
+      <div class="copyright">© Pushpam GFX • Google Drive Downloader Hub</div>
     </footer>
+
   </div>
+
+  <!-- Interactive JavaScript for Search & Filters -->
+  <script>
+    function filterCards() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title').innerText.toLowerCase();
+        if (title.includes(input)) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
+    function filterCategory(cat) {
+      const chips = document.querySelectorAll('.category-chip');
+      chips.forEach(chip => chip.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+  </script>
 
 </body>
 </html>
-
